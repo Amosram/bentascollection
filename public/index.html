@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title STYLE="color:blue">Benta's Clothe Shop | Home</title>
+    <!--css-link-->
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet"
+    href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+  
+</head>
+<body>
+
+    <!-- Navigation bar -->
+    <header>
+        <a href="index.html">
+            <img class="pic" src="images/logo.jpeg" alt="logo img" width="40">
+        </a>
+
+        <ul class="navmenu"  id="navmenu">
+            <li> <a href="index.html"> home</a></li>
+            <li> <a href="#products"> products</a></li>
+            <li> <a href="#contact"> contact us</a></li>
+        </ul>
+
+        <div class="nav-icon">
+            <a><i class='bx bx-cart'>
+                <p id="count">0</p>
+            </i></a>
+            <div class="auth-container">
+                <button id="login-btn">Login</button>
+                <button id="logout-btn" style="display:none;">
+                 
+                    Logout
+                </button>
+                <button id="register-btn">Sign Up</button>
+            </div>
+            <a href="#" id="menu-icon"><i class='bx bx-menu'></i></a>
+        </div>
+    </header>
+
+    <section class="main-home">
+        <div class="main-text">
+            <h5>BENTA'S COLLECTION</h5>
+            <br>
+            <h1>NEW BENTA'S<br>COLLECTION 2024</h1>
+            <br>
+            <p>There is nothing like trend</p>
+
+            <a href="#products" class="main-btn" >shop now <i class="bx bx-right-arrow-alt"></i> </a>
+        </div>
+        <div class="down-arrow">
+            <a href="#trending" class="arrow"><a href="#"><i class='bx bx-down-arrow'></i></a></a>
+
+        </div>
+    </section>
+
+    <!--trending products section-->
+    <section class="trending" id="trending">
+        <div class="center-text">
+            <h2>our trending <span>products</span></h2>
+        </div>
+
+        <div class="products" id="products">
+                
+        </div>
+    </section>
+    <!--client review section-->
+
+    <!-- Cart Section -->
+    <section class="cart-container">
+        <div class="close">
+            <p id="close-btn">
+                <i class='bx bx-x-circle'></i>
+                Close
+            </p>
+            <h2 class="cart-title">Shopping Cart</h2>
+        </div>
+        
+        <div class="cartItems">
+         <ul id="cartItems">
+             <!-- cart items are added in here -->
+         </ul>
+         <hr>
+         <div class="total-conatiner">
+            <div class="total-box">
+                <p>Total:</p>
+                <P id="totalPrice">KSH 0.00</P>
+            </div>
+            <button type="submit" id="btn-pay">Checkout</button>
+         </div>
+        </div>
+    </section>
+
+    <!-- register page -->
+    <section class="form-container" id="register">
+        <form id="signupMessage">
+            <h1>Sign Up</h1>
+            <div class="inputs">
+                <input type="text" id ="fName" placeholder="Enter First Name" required>
+                <input type="text" id ="lName" placeholder="Enter Last Name" required>
+                <input type="email" id ="rEmail" placeholder="Enter Email" required>
+                <input type="password" id ="rPassword" placeholder="Password" required>
+            </div>
+            <div class="checkbox">
+                <input type="checkbox" class="check-input" required>
+                <p>I agree to terms and conditions</p>
+            </div>
+            <button type="submit" class="btn" id="submitSignUp">Create Acoount</button>
+            
+            <!-- <div class="switch-link">
+                <p>Already have an acoount?</p>
+                <a id="login-btn">Login here</a>
+            </div> -->
+        </form>
+    </section>
+
+    <!-- LOGIN PAGE -->
+    <section class="form-container" id="login">
+        <form id="signinMessage">
+            <h1>Sign In</h1>
+            <div class="inputs">
+                <input type="email" id ="email" placeholder="Enter Email" required>
+                <input type="password" id ="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn" id="submitSignIn">Sign In</button>
+            <!--             
+            <div class="switch-link">
+                <p>Don't have an account?</p>
+                <a id="register-btn">Create Account</a>
+            </div> -->
+        </form>
+    </section>
+
+
+    <section class="review-section">
+        <div class="review">
+            <h3>client review</h3>
+           <img src="images/aicy steven.jpg" alt="">
+            <p>we deliver womens outfit at an affordable price .we would surely reccomend that you shop with our website</p>
+
+            <h2>mark review</h2>
+            <p>CEO of addle</p>
+        </div>
+    </section>
+
+    <!--update news section-->
+    <section class="update news">
+        <div class="up-center-news">
+        <h2>new updates</h2>
+        </div>
+
+        <div class="news-container">
+            <div class=" update-cart">
+                <div class="cart">
+                    <img src="images/image 21.jpg" alt="">
+                    <h5>6 jan 2024</h5>
+                    <h4>lets start bringing sales on this summer vacation</h4>
+                    <p>this is an incredible way to shop and enjoy yourself on this holiday make sure to buy an item</p>
+            
+                </div>
+            </div>
+             
+            <div class=" update-cart">
+                <div class="cart">
+                    <img src="images/image 24.jpg" alt="">
+                    <h5>6 jan 2024</h5>
+                    <h4>lets start bringing sales on this summer vacation</h4>
+                    <p>this is an incredible way to shop and enjoy yourself on this holiday make sure to buy an item</p>
+                </div>
+            </div>
+        </div>
+      
+    </section>
+
+    <!--contact section-->
+    <section class="footer" id="contact">
+        <div class="footer-container">
+            <div class="footer-box">
+                <div class="footer-left">
+                    <img src="images/logo.jpeg" alt="">
+                    <p>3245  grant street longview <br>tx Kenya 765378</p>
+                    <p>0114657578</p>
+                    <p>immabenta@gmail.com</p>
+                </div>
+                <div class="footer-middle">
+                    <h1>Company</h1>
+                    <div class="links">
+                        <a href="#">Home</a>
+                        <a href="#products">Our Products</a>
+                        <a href="">Privacy Policy</a>
+                    </div>
+                </div>
+
+                <div class="footer-right">
+                    <h1>Get In Touch</h1>
+                    <div class="social-icons">
+                        <a href=""><i class='bx bxl-facebook'></i> </a>
+                        <a href=""><i class='bx bxl-twitter'></i></a>
+                        <a href=""><i class='bx bxl-instagram'></i></a>
+                        <a href=""><i class='bx bxl-linkedin'></i></a>
+                    </div>
+                </div>
+            </div>
+            <p class="copyright">&copy; 2024. Benta's Collection.com .All Rights Reserved</p>
+        </div>
+    </section>
+
+    <script src="js/main.js" ></script>
+</body>
+</html>
