@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import stripe from 'stripe';
+import multer from 'multer';
 import { LocalStorage } from 'node-localstorage';
 
 const __dirname = path.resolve();
@@ -39,28 +40,107 @@ const authenticateToken = (req, res, next) => {
     });
 };
 
+
 // MongoDB connection 
 const uri = 'mongodb+srv://amosrama733:QuNzvOVdB755UuSs@cluster0.32fbb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
-mongoose.connect(uri,{
-     useNewUrlParser: true, 
-     useUnifiedTopology: true,
-     //QuNzvOVdB755UuSs
-});
+
+
+const connectDB = async () => {
+    try {
+       await mongoose.connect(uri);
+        console.log("Database Connected");
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 //OUR MODELS HERE
 // Definining user schema and model 
 const userSchema = new mongoose.Schema({ 
-    firstName: String, 
-    lastName: String, 
-    email: String, 
-    password: String, 
+    firstName: {type: String, required: true}, 
+    lastName: {type: String, required: true}, 
+    email: {type: String, required: true}, 
+    password: {type: String, required: true}, 
+    isAdmin: {type: Boolean, default: false},
 }); 
 const User = mongoose.model('User', userSchema);
 
+const ProductSchema = new mongoose.Schema({ 
+    title: { type: String, required: true }, 
+    price: { type: Number, required: true },
+    image: { type: String } // Add imageUrl field 
+});
+const Product = mongoose.models.product ||  mongoose.model('product', ProductSchema);
+
 //END OF MODELS
+
+//admin middleware
+const admin = (req, res, next) => { 
+    if (!req.user.isAdmin) { 
+        return res.status(403).json({ message: 'Access denied: Only Admins can add products' }); 
+    } next();
+}
 
 
 //OUR ENDPOINTS HERE
+// Fetch all products 
+app.get('/all-products', async (req, res) => { 
+    try {
+        const products = await Product.find(); 
+        res.json(products); 
+    } catch (error) {
+        console.log(error);
+        res.json({success:false,message:error.message});
+    }
+});
+
+//setting up multer for image upload
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/uploads'); // Save files to 'public/uploads' directory
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname); // Save with timestamp for unique filename
+    }
+});
+const upload = multer({ storage: storage });
+
+
+// Add a new product 
+app.post('/add-products', upload.single('image'),async (req, res) => { 
+   
+    try {
+        const {title, price} = req.body;
+        const image = `/uploads/${req.file.filename}`; // Get image URL
+
+        const productData = {
+            title,
+            price:Number(price),
+            image:image,
+        }
+
+        const newProduct = new Product(productData); 
+        await newProduct.save(); 
+        res.json({success:true, message:"Product added Successifully"}); 
+
+    } catch (error) {
+        console.log(error);
+        res.json({success:false,message:error.message});
+    }
+});
+
+// Delete a product 
+app.delete('/remove-products', async (req, res) => { 
+    try {
+        await Product.findByIdAndDelete(req.body.id); 
+        res.json({ message: 'Product deleted' });
+    } catch (error) {
+        console.log(error);
+        res.json({success:false,message:error.message});
+    }
+  
+});
+
 // User registration endpoint 
 app.post('/api/register', async (req, res) => { 
     const { firstName, lastName, email, password } = req.body; 
@@ -113,7 +193,7 @@ app.post('/api/login', async (req, res) => {
 //stripe endpoint
 app.post('/stripe-payment', async (req, res) => {
     const lineItems = req.body.items.map((item) => {
-        const unitAmount = parseInt(parseFloat(item.price) * 100);
+        const unitAmount = (item.price) * 100;
         console.log('item-price:', item.price);
         console.log('unitAmout:', unitAmount);
         return {
@@ -163,5 +243,6 @@ app.get('/cancel', (req, res) => {
 
 //running the server on port 5000
 app.listen(port, () => { 
+    connectDB();
     console.log(`Server running at http://localhost:${port}`); 
 });

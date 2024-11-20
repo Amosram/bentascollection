@@ -3,12 +3,22 @@ document.getElementById("menu-icon").onclick = () => {
     document.getElementById("navmenu").classList.toggle("active");
 }
 
+//toggle register page
 document.getElementById("register-btn").onclick = () => {
     document.getElementById("register").classList.toggle("active");
+    document.getElementById("main-header").style.display = "none";
 }
 
+//toggle login page
 document.getElementById("login-btn").onclick = () => {
     document.getElementById("login").classList.toggle("active");
+    document.getElementById("main-header").style.display = "none";
+}
+
+//toggle dashboard page
+document.getElementById("dashboard-btn").onclick = () => {
+    document.getElementById("dashboard").classList.toggle("active");
+    document.getElementById("main-header").style.display = "none";
 }
 
 
@@ -24,54 +34,72 @@ document.getElementById("close-btn").onclick = () => {
     cartContainer.classList.remove("active");
 }
 
+
+
+//function to add product api
+const addProduct = document.getElementById('add-product');
+addProduct.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const title = document.getElementById('title').value;
+    const price = document.getElementById('price').value;
+
+    fetch('/add-products', {
+        method: 'POST',
+        headers: { 
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title, price}),
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+});
+
+
+
+
 const products = [
     {
         id: 1,
-        title: "Balenciga",
-        image:'images/image-4.jpg',
-        price: 120, 
+        title: "Dress",
+        price:1240,
+        image:"/images/image-3.jpg"
     },
     {
         id: 2,
-        title: "Balenciga",
-        image:'images/image-2.jpg',
-        price: 120, 
+        title: "Dress",
+        price:1240,
+        image:"/images/image-3.jpg"
     },
     {
         id: 3,
-        title: "Balenciga",
-        image:'images/image-3.jpg',
-        price: 120, 
+        title: "Dress",
+        price:1240,
+        image:"/images/image-3.jpg"
     },
     {
         id: 4,
-        title: "Balenciga",
-        image:'images/image-5.jpg',
-        price: 120, 
+        title: "Dress",
+        price:1240,
+        image:"/images/image-3.jpg"
     },
     {
         id: 5,
-        title: "Balenciga",
-        image:'images/image-6.jpg',
-        price: 120, 
+        title: "Dress",
+        price:1240,
+        image:"/images/image-3.jpg"
     },
-    {
-        id: 6,
-        title: "Balenciga",
-        image:'images/image-9.jpg',
-        price: 120, 
-    },
-    {
-        id: 7,
-        title: "addidas",
-        image:'images/image-9.jpg',
-        price: 120, 
-    }
-]
+];
 
-const clothes = [...new Set(products.map((item) => 
+let clothes = [...new Set(products.map((item) => 
     {return item}))]
     let i = 0;
+
+
 
 document.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById('products').innerHTML = clothes.map((item) => 
@@ -95,7 +123,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
           
         }).join('')
 });
-
 
 const cart = [];
 function addToCart(a) {
@@ -139,7 +166,7 @@ function displaycart(a) {
 
 //function to fetch rigistration api
 const formSignUp = document.getElementById('signupMessage');
-formSignUp && formSignUp.addEventListener('submit', function(e) {
+formSignUp.addEventListener('submit', function(e) {
     e.preventDefault();
     const firstName = document.getElementById('fName').value;
     const lastName = document.getElementById('lName').value;
@@ -167,7 +194,7 @@ formSignUp && formSignUp.addEventListener('submit', function(e) {
 
 //function to fetch login api
 const formSignIn =  document.getElementById('signinMessage');
-formSignIn && formSignIn.addEventListener('submit', function(e) {
+formSignIn.addEventListener('submit', function(e) {
     e.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -183,7 +210,7 @@ formSignIn && formSignIn.addEventListener('submit', function(e) {
     .then(data => {
         alert(data.message);
          if (data.token) { 
-            localStorage.setItem('token', data.token); // Store the JWT token in 
+            localStorage.setItem('token', data.token); // Store the JWT token in localstorage
             localStorage.setItem('username', data.email); // Store the username in localStorage 
             window.location.href = data.redirectUrl; // Redirect to the homepage
         }
@@ -199,6 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const registerBtn = document.getElementById("register-btn");
     const loginBtn = document.getElementById("login-btn");
     const logoutBtn = document.getElementById("logout-btn");
+    const dashboardBtn = document.getElementById("dashboard-btn");
     
     const username = localStorage.getItem('username'); 
     const token = localStorage.getItem('token');
@@ -207,6 +235,7 @@ document.addEventListener('DOMContentLoaded', function() {
         registerBtn.style.display = "none";
         loginBtn.style.display = "none";
         loginBtn.style.display = "none";
+        dashboardBtn.style.display = "block";
         logoutBtn.style.display = "block";
     }
 
@@ -214,18 +243,16 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.removeItem('token');
         registerBtn.style.display = "block";
         loginBtn.style.display = "block";
+        dashboardBtn.style.display = "none";
         logoutBtn.style.display = "none";
     })
 });
-
-
-
 
 //checkout functionality to fetch stripe api from server 
 const btnPay = document.getElementById("btn-pay");
 
 btnPay.addEventListener("click", () => {
-    fetch('/stripe-payment', {
+    fetch('/stripecheckout', {
         method: 'POST',
         headers:{
             'Content-Type': 'application/json',
