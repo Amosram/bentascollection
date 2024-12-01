@@ -68,7 +68,7 @@ const User = mongoose.model('User', userSchema);
 const ProductSchema = new mongoose.Schema({ 
     title: { type: String, required: true }, 
     price: { type: Number, required: true },
-    image: { type: String } // Add imageUrl field 
+    image: { type: String } // Here is the imageUrl field 
 });
 const Product = mongoose.models.product ||  mongoose.model('product', ProductSchema);
 

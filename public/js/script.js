@@ -108,6 +108,7 @@ function displayProducts(clothes) {
 }
 */
 
+
 const products = [
     {
         id: 1,
@@ -148,7 +149,13 @@ const products = [
     {
         id: 7,
         title: "addidas",
-        image:'images/image-9.jpg',
+        image:'images/image-10.jpg',
+        price: 120, 
+    },
+    {
+        id: 8,
+        title: "addidas",
+        image:'images/image-1.jpg',
         price: 120, 
     }
 ]
